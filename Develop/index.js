@@ -6,7 +6,7 @@ const inquirer = require("inquirer");
 const questions = {
   title: "What is the project's title",
   description: "Please enter the project's description",
-  installationIstructions: "What are the installation instructions",
+  installationInstructions: "What are the installation instructions",
   usageInformation: "What is the usage information",
   contributionGuidelines: "What are the contribution guidelines",
   testInstructions: "What are the test instructions",
@@ -36,8 +36,7 @@ const licenseDescription = [
 function writeToFile(fileName, data) {
   fs.writeFile(fileName, data, (err)=>{
       if (err) throw err;
-
-      console.log('README File Created');
+      console.log(fileName + " File created succesfully");
   });
 }
 
@@ -57,7 +56,7 @@ function init() {
       },
       {
         type: "input",
-        message: questions.installationIstructions,
+        message: questions.installationInstructions,
         name: "installationInstructions",
       },
       {
@@ -93,7 +92,6 @@ function init() {
       },
     ])
     .then((response) => {
-      console.log("Success!");
       const fileTitle = response.title.replace(/\s/g, "_") + '.md';
       const badgeLink = 'https://img.shields.io/badge/license-' + response.license.replace(/\s/g, "_") + '-green';
       let licenseIndex;
@@ -119,13 +117,13 @@ function init() {
         }
 
       const data = `
-# Professional-README-Generator
+# ${response.title}
 [![License](${badgeLink}) ](${badgeLink})
 
 ## Description
 ${response.description}
 
-## Table of Contents (Optional)
+## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
@@ -134,7 +132,7 @@ ${response.description}
 - [Questions](#questions)
 
 ## Installation
-${response.installationIstructions}
+${response.installationInstructions}
 
 ## Usage
 ${response.usageInformation}
@@ -149,6 +147,7 @@ ${response.contributionGuidelines}
 ${response.testInstructions}
 
 ## Questions
+For further inquires, please contact me through Github or E-mail
 * [Github profile](https://github.com/${response.userGithub})
 <br>
 * <a href="mailto:${response.userEmail}">E-mail</a>
